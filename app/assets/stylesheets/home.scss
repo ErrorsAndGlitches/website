@@ -1,32 +1,19 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'application';
 
-body
+.custom-content
 {
-  background: image-url('left_space_tree.png') no-repeat left 50px fixed black;
-  background-size: contain;
-  padding-top: 50px; // for the navigation bar
+  @extend .col-xs-8;
 }
 
-.navbar-header
+.custom-content-margin
 {
-  padding-right: 80px;
+  @extend .col-xs-2;
 }
 
-.navbar #home
+.custom-container
 {
-  background-position: left 0px;
-  background-image: image-url('nav_images/small_home_both.png');
-  background-repeat: no-repeat;
-  height: 44px;
-  width: 116px;
-  margin-top: 4px;
-  padding-right: 140px;
-  overflow: hidden;
-}
-
-.navbar #home:hover
-{
-  background-position: left -44px;
+  @extend .container;
 }

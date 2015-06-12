@@ -13,5 +13,46 @@
  */
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
-@import 'flights';
-@import 'home';
+
+body
+{
+  background: image-url('left_space_tree.png') no-repeat left 50px fixed black;
+  background-size: contain;
+  padding-top: 50px; // for the navigation bar
+}
+
+.navbar-header
+{
+  padding-right: 80px;
+}
+
+.navbar .word
+{
+  background-position: left 0;
+  background-repeat: no-repeat;
+  padding-right: 160px;
+  overflow: hidden;
+}
+
+.navbar .word:hover
+{
+  background-position: left -42px;
+}
+
+.navbar #home
+{
+  @extend .word;
+  margin-top: 4px;
+  height: 42px;
+  width: 116px;
+  background-image: image-url('nav_images/nav_home.png');
+}
+
+.navbar #photos
+{
+  @extend .word;
+  margin-top: 4px;
+  height: 42px;
+  width: 148px;
+  background-image: image-url('nav_images/nav_photos.png');
+}

@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>RailsWebsite</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag params[:controller], media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
@@ -10,17 +10,17 @@
 
 <%= render 'shared/navigation' %>
 
-<div id="main-container" class="container container-padding">
+<div id="main-container" class="custom-container">
   <div class="row">
-    <div class="col-xs-2"></div>
+    <div class="custom-content-margin"></div>
 
-    <div class="col-xs-8">
+    <div class="custom-content">
 
       <%= yield %>
 
     </div>
 
-    <div class="col-xs-2"></div>
+    <div class="custom-content-margin"></div>
   </div>
 </div>
 
