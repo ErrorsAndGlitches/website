@@ -1,4 +1,9 @@
 class HomeController < ApplicationController
-    def index
-    end
+  def home
+    @selected_map[:home] = true
+  end
+
+  def photos
+    @selected_map[:photos] = true
+  end
 end

@@ -28,15 +28,28 @@ body
 
 .navbar .word
 {
-  background-position: left 0;
   background-repeat: no-repeat;
-  padding-right: 160px;
   overflow: hidden;
 }
 
-.navbar .word:hover
+.navbar-unselected
+{
+  background-position: left 0;
+}
+
+.navbar-unselected:hover
 {
   background-position: left -42px;
+}
+
+.navbar .navbar-selected
+{
+  background-position: left -84px;
+}
+
+.navbar-selected:hover
+{
+  background-position: left -126px;
 }
 
 .navbar #home
@@ -44,7 +57,7 @@ body
   @extend .word;
   margin-top: 4px;
   height: 42px;
-  width: 116px;
+  width: 118px;
   background-image: image-url('nav_images/nav_home.png');
 }
 
@@ -55,4 +68,9 @@ body
   height: 42px;
   width: 148px;
   background-image: image-url('nav_images/nav_photos.png');
+}
+
+.navbar .navbar-link
+{
+  padding: 0 30px 0 0;
 }
