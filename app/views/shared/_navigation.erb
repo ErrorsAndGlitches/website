@@ -5,14 +5,13 @@
     </div>
     <ul class="nav navbar-nav navbar-left">
       <li>
-        <%= link_to home_home_path, :class => 'navbar-link' do %>
-            <% content_tag(:div, '', :id => 'home', :class => @selected_map[:home] ? 'navbar-selected' : 'navbar-unselected') %>
-        <% end %>
+        <%= get_nav_link('home', 'home', 'home') %>
       </li>
       <li>
-        <%= link_to home_photos_path, :class => 'navbar-link'  do %>
-            <%= content_tag(:div, '', :id => 'photos', :class => @selected_map[:photos] ? 'navbar-selected' : 'navbar-unselected') %>
-        <% end %>
+        <%= get_nav_link('home', 'photos', 'photos') %>
+      </li>
+      <li>
+        <%= get_nav_link('flights', 'index', 'flights') %>
       </li>
     </ul>
   </div>

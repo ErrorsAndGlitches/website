@@ -26,12 +26,6 @@ body
   padding-right: 80px;
 }
 
-.navbar .word
-{
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-
 .navbar-unselected
 {
   background-position: left 0;
@@ -52,11 +46,17 @@ body
   background-position: left -126px;
 }
 
+.navbar .word
+{
+  background-repeat: no-repeat;
+  overflow: hidden;
+  margin-top: 4px;
+  height: 42px;
+}
+
 .navbar #home
 {
   @extend .word;
-  margin-top: 4px;
-  height: 42px;
   width: 118px;
   background-image: image-url('nav_images/nav_home.png');
 }
@@ -64,10 +64,15 @@ body
 .navbar #photos
 {
   @extend .word;
-  margin-top: 4px;
-  height: 42px;
   width: 148px;
   background-image: image-url('nav_images/nav_photos.png');
+}
+
+.navbar #flights
+{
+  @extend .word;
+  width: 152px;
+  background-image: image-url('nav_images/nav_flights.png');
 }
 
 .navbar .navbar-link
