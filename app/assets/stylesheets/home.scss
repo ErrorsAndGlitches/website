@@ -3,16 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'application';
 
-.custom-content
-{
-  @extend .col-xs-8;
-}
-
-.custom-content-margin
-{
-  @extend .col-xs-2;
-}
-
 .custom-container
 {
   @extend .container;

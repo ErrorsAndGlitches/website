@@ -3,26 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'application';
 
-.content
-{
-  width: 100%;
-  height: 100%;
-}
-
 .custom-container
 {
   @extend .container-fluid;
   padding-top: 50px; // for the navigation bar
-}
-
-.custom-content-margin
-{
-  @extend .col-xs-1;
-}
-
-.custom-content
-{
-  @extend .col-xs-10;
   overflow: hidden;
   overflow-x: auto;
 }
