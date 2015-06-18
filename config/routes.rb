@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'home#home'
   get '/home/home' => 'home#home'
   get '/home/photos' => 'home#photos'
+  get '/home/photos/*id' => 'home#show_photo'
 
   get '/flights' => 'flights#index'
 

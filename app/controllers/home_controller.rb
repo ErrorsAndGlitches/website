@@ -23,6 +23,10 @@ class HomeController < ApplicationController
     end
   end
 
+  def show_photo
+    @original_file_name = 'photos/' + params[:id].sub('thumbnail_', '').sub('thumbnail', 'original') + '.JPG'
+  end
+
   private
 
   @@IMAGE_DIR = 'app/assets/images/'
