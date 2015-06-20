@@ -1,16 +1,11 @@
 <% @albums.each do |album| %>
-    <%= content_tag :h1, album[:title] %>
-
-    <% album[:thumbnails].each_slice(3) do |three_files| %>
-        <div class="row">
-          <% three_files.each do |file_name| %>
-              <%= content_tag :div, :class => 'col-xs-4' do %>
-                  <%= content_tag :a, :href => file_name do %>
-                      <%= image_tag file_name, :class => 'img-rounded img-responsive img-size lazy', lazy: true %>
-                  <% end %>
-                  <br>
-              <% end %>
-          <% end %>
-        </div>
-    <% end %>
+    <div class="row">
+      <%= content_tag :h1, album[:title] %>
+    </div>
+    <div class="row">
+      <%= content_tag :a, :href => album[:href] do %>
+          <%= image_tag album[:cover], :class => 'img-rounded img-responsive' %>
+      <% end %>
+    </div>
+    <br>
 <% end %>

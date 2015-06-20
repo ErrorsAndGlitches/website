@@ -1,42 +1,75 @@
 class HomeController < ApplicationController
   def home
-    @selected_map[:home] = true
+    @selected_tab = :home
   end
 
   def photos
-    @selected_map[:photos] = true
+    @selected_tab = :photos
+    @albums       = get_albums
+  end
 
-    # find directories with the 'metadata' file
-    @albums                = []
-    Dir.glob("#{PHOTO_DIR_NAME}/**/#{METADATA_FILE_NAME}") do |metadata_file_name|
-      add_images(metadata_file_name)
-    end
+  def album
+    @selected_tab = :photos
+    @link_enabled = true
+
+    photo_dir = params[:dir]
+    @album    = get_album_thumbnails("#{PHOTO_DIR_NAME}/#{photo_dir}/#{METADATA_FILE_NAME}")
   end
 
   def show_photo
-    @original_file_name = 'photos/' + params[:id].sub('thumbnail_', '').sub('thumbnail', 'original') + '.JPG'
+    @selected_tab       = :photos
+    @link_enabled       = true
+
+    @original_file_name = "photos/#{params[:dir]}/original/#{params[:image]}.JPG"
   end
 
   private
 
-  def add_images(metadata_file_name)
+  def get_metadata_files
+    Dir.glob("#{PHOTO_DIR_NAME}/**/#{METADATA_FILE_NAME}")
+  end
+
+  def get_albums
+    albums = []
+    get_metadata_files.each do |file_name|
+      File.open(file_name) do |file|
+        metadata      = Crack::JSON.parse(file.read)
+        album         = Hash.new
+        album[:title] = metadata['title']
+        album[:cover] = "#{File.dirname(file_name).slice(SLICE_REGEX)}/#{metadata['cover']}"
+        album[:href]  = "album/#{File.basename(File.dirname(file_name))}"
+        albums << album
+      end
+    end
+
+    albums
+  end
+
+  def get_album_thumbnails(metadata_file_name)
+    album = Hash.new
+
     File.open(metadata_file_name) do |metadata_file|
       metadata = Crack::JSON.parse(metadata_file.read)
 
-      album         = Hash.new
       album[:title] = metadata['title']
 
-      thumbnail_dir      = metadata['thumbnail_dir']
-      thumbnail_images   = []
+      thumbnail_dir    = metadata['thumbnail_dir']
+      thumbnail_images = []
       Dir.glob("#{File.dirname(metadata_file_name)}/#{thumbnail_dir}/*") { |path|
-        thumbnail_images << path.slice(/photos\/.*/)
+        rails_path = path.slice(SLICE_REGEX)
+        thumbnail_images << {
+          :path => rails_path,
+          :href => "#{File.basename(File.dirname(metadata_file_name))}/#{File.basename(path).sub('thumbnail_', '')}"
+        }
       }
-      album[:thumbnails] = thumbnail_images
 
-      @albums << album
+      album[:thumbnails] = thumbnail_images
     end
+
+    album
   end
 
+  SLICE_REGEX        = /photos\/.*/
   METADATA_FILE_NAME = 'metadata'
   PHOTO_DIR_NAME     = 'app/assets/images/photos/'
 end

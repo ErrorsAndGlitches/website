@@ -8,18 +8,23 @@ class ApplicationController < ActionController::Base
 
   def initialize
     super
-    @selected_map = Hash.new(false)
+    @selected_tab = nil
+    @link_enabled = false
   end
 
   def get_nav_link(controller, action, id)
-    is_selected = @selected_map[id.to_sym]
+    is_selected = @selected_tab == id.to_sym
 
     if is_selected
-      options = '#'
       navbar_class = 'navbar-selected'
     else
-      options = {:controller => controller, :action => action}
       navbar_class = 'navbar-unselected'
+    end
+
+    if @link_enabled
+      options = {:controller => controller, :action => action}
+    else
+      options = '#'
     end
 
     view_context.link_to options, :class => 'navbar-link' do
