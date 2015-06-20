@@ -1,14 +1,16 @@
-<%= content_tag :h1, @title %>
+<% @albums.each do |album| %>
+    <%= content_tag :h1, album[:title] %>
 
-<% @image_paths.each_slice(3) do |three_files| %>
-    <div class="row">
-      <% three_files.each do |file_name| %>
-          <%= content_tag :div, :class => 'col-xs-4' do %>
-              <%= content_tag :a, :href => file_name do %>
-                  <%= image_tag file_name, :class => 'img-rounded img-responsive' %>
+    <% album[:thumbnails].each_slice(3) do |three_files| %>
+        <div class="row">
+          <% three_files.each do |file_name| %>
+              <%= content_tag :div, :class => 'col-xs-4' do %>
+                  <%= content_tag :a, :href => file_name do %>
+                      <%= image_tag file_name, :class => 'img-rounded img-responsive' %>
+                  <% end %>
+                  <br>
               <% end %>
-              <br>
           <% end %>
-      <% end %>
-    </div>
+        </div>
+    <% end %>
 <% end %>

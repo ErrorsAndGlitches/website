@@ -18,3 +18,11 @@
 
 .idea
 *.xcf
+
+# photos
+app/assets/images/photos/
+
+# java script for flights chart
+app/assets/javascripts/flights/
+
+public/files/
