@@ -1,5 +1,5 @@
 class FlightsController < ApplicationController
   def index
-    @selected_map[:flights] = true
+    @selected_tab = :flights
   end
 end

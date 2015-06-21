@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def home
     @selected_tab = :home
+    @links
   end
 
   def photos
@@ -17,17 +18,13 @@ class HomeController < ApplicationController
   end
 
   def show_photo
-    @selected_tab       = :photos
-    @link_enabled       = true
+    @selected_tab = :photos
+    @link_enabled = true
 
     @original_file_name = "photos/#{params[:dir]}/original/#{params[:image]}.JPG"
   end
 
   private
-
-  def get_metadata_files
-    Dir.glob("#{PHOTO_DIR_NAME}/**/#{METADATA_FILE_NAME}")
-  end
 
   def get_albums
     albums = []
@@ -37,7 +34,7 @@ class HomeController < ApplicationController
         album         = Hash.new
         album[:title] = metadata['title']
         album[:cover] = "#{File.dirname(file_name).slice(SLICE_REGEX)}/#{metadata['cover']}"
-        album[:href]  = "album/#{File.basename(File.dirname(file_name))}"
+        album[:href]  = "/home/album/#{File.basename(File.dirname(file_name))}"
         albums << album
       end
     end
@@ -69,7 +66,5 @@ class HomeController < ApplicationController
     album
   end
 
-  SLICE_REGEX        = /photos\/.*/
-  METADATA_FILE_NAME = 'metadata'
-  PHOTO_DIR_NAME     = 'app/assets/images/photos/'
+  SLICE_REGEX = /photos\/.*/
 end

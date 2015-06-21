@@ -5,13 +5,34 @@
     </div>
     <ul class="nav navbar-nav navbar-left">
       <li>
-        <%= get_nav_link('home', 'home', 'home') %>
+        <%= link_to @links[:home], :class => 'navbar-link' do %>
+            <%= content_tag :div, nil, :id => 'home', :class => "#{@selected_tab == :home ? 'navbar-selected' : 'navbar-unselected'}" %>
+        <% end %>
+      </li>
+      <li class="dropdown">
+        <%= link_to '#', :class => 'navbar-link dropdown-toggle', 'data-toggle' => 'dropdown' do %>
+            <%= content_tag :div, nil, :id => 'photos', :class => "#{@selected_tab == :photos ? 'navbar-selected' : 'navbar-unselected'}" %>
+        <% end %>
+        <%= content_tag :ul, :class => 'dropdown-menu' do %>
+            <%= content_tag :li do %>
+                <%= link_to 'All Albums', @links[:photos], :class => 'truncate' %>
+            <% end %>
+
+            <% i = 0 %>
+            <% get_albums_for_nav.each do |album| %>
+                <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
+                <%= content_tag :li do %>
+                    <%= link_to album[:title], album[:href], :class => 'truncate' %>
+                <% end %>
+
+                <% i += 1 %>
+            <% end %>
+        <% end %>
       </li>
       <li>
-        <%= get_nav_link('home', 'photos', 'photos') %>
-      </li>
-      <li>
-        <%= get_nav_link('flights', 'index', 'flights') %>
+        <%= link_to @links[:flights], :class => 'navbar-link' do %>
+            <%= content_tag :div, nil, :id => 'flights', :class => "#{@selected_tab == :flights ? 'navbar-selected' : 'navbar-unselected'}" %>
+        <% end %>
       </li>
     </ul>
   </div>
