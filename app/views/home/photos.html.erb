@@ -1,11 +1,17 @@
-<% @albums.each do |album| %>
+<% @albums.each_slice(2) do |two_album| %>
     <div class="row">
-      <%= content_tag :h1, album[:title] %>
-    </div>
-    <div class="row">
-      <%= content_tag :a, :href => album[:href] do %>
-          <%= image_tag album[:cover], :class => 'img-rounded img-responsive' %>
+      <% two_album.each do |album| %>
+          <div class="col-xs-6">
+            <div class="row" style="text-align: center;">
+              <%= content_tag :h1, album[:title] %>
+            </div>
+            <div class="row">
+              <%= content_tag :a, :href => album[:href] do %>
+                  <%= image_tag album[:cover], :class => 'img-rounded img-responsive', :style => 'margin: auto;' %>
+              <% end %>
+            </div>
+          </div>
       <% end %>
+      <br>
     </div>
-    <br>
 <% end %>
