@@ -26,3 +26,6 @@ app/assets/images/photos/
 app/assets/javascripts/flights/
 
 public/files/
+
+config/database.yml
+scripts/mysql_config.json

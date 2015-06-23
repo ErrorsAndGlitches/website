@@ -36,7 +36,7 @@ File.open(METADATA_FILE_NAME) do |metadata_file|
 
   Dir.glob("#{original_dir_name}/*") do |filename|
     # convert files into smaller images if the destination image doesn't exist
-    thumbnail_img_name = "#{thumbnail_dir_name}/thumbnail_#{File.basename(filename)}"
+    thumbnail_img_name = "#{thumbnail_dir_name}/#{File.basename(filename)}"
     unless File.exists?(thumbnail_img_name)
       %x(gm convert #{filename} -resize #{THUMBNAIL_DIM}x#{THUMBNAIL_DIM} #{thumbnail_img_name})
       puts "Created: #{thumbnail_img_name}"

@@ -26,7 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # User added gems
 gem 'crack'
-gem 'mysql'
+gem 'mysql2'
 gem 'lazyload-rails'
 
 # Use ActiveModel has_secure_password

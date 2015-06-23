@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#home'
   get '/home/home' => 'home#home'
-  get '/home/photos' => 'home#photos'
-  get '/home/album/:dir' => 'home#album'
-  get '/home/album/:dir/:image' => 'home#show_photo'
+  get '/albums' => 'albums#index'
+  get '/albums/:id' => 'albums#album'
+  get '/albums/:id/:photo' => 'albums#show_photo'
 
   get '/flights' => 'flights#index'
 

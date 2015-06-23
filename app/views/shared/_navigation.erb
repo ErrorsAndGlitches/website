@@ -15,14 +15,14 @@
         <% end %>
         <%= content_tag :ul, :class => 'dropdown-menu' do %>
             <%= content_tag :li do %>
-                <%= link_to 'All Albums', @links[:photos], :class => 'truncate' %>
+                <%= link_to 'All Albums', @links[:albums], :class => 'truncate' %>
             <% end %>
 
             <% i = 0 %>
             <% get_albums_for_nav.each do |album| %>
                 <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
                 <%= content_tag :li do %>
-                    <%= link_to album[:title], album[:href], :class => 'truncate' %>
+                    <%= link_to album.title, "/albums/#{album.id}", :class => 'truncate' %>
                 <% end %>
 
                 <% i += 1 %>

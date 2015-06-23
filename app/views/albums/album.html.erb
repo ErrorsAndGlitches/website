@@ -1,0 +1,14 @@
+<%= content_tag :h1, @album.title %>
+
+<% @photos.each_slice(3) do |three_photos| %>
+    <div class="row">
+      <% three_photos.each do |photo| %>
+          <%= content_tag :div, :class => 'col-xs-4' do %>
+              <%= content_tag :a, :href => "/albums/#{@album.id}/#{photo.id}" do %>
+                  <%= image_tag photo.thumbnail, :class => 'img-rounded img-responsive img-size lazy', lazy: true %>
+              <% end %>
+              <br>
+          <% end %>
+      <% end %>
+    </div>
+<% end %>
