@@ -1,0 +1,11 @@
+
+* load images lazily
+* album list when going to just photos
+* clicking on photos creates a gallery of albums
+* move photos to a database
+* photos in order of taken
+
+* add slide show when clicking on image
+* move flights datas to a rails database
+* about page
+* update script so that the SQL is faster

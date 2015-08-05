@@ -23,9 +23,11 @@
 app/assets/images/photos/
 
 # java script for flights chart
+# eventually need to convert this into reading from the DB
 app/assets/javascripts/flights/
 
 public/files/
 
 config/database.yml
+config/ssl
 scripts/mysql_config.json
