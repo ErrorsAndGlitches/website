@@ -1,8 +1,9 @@
 Setting up SSL with rails
 
 1) Create an SSL certificate and key and put in config/ssl
-2) Start rails using a command similar to:
+    openssl req -x509 -newkey rsa:2048 -keyout ${IPADDR}.key -out ${IPADDR}.crt
 
+2) Start rails using a command similar to:
     rvmsudo passenger start -a ${IPADDR} -p ${PORT} -d --ssl --ssl-port 443 \
         --ssl-certificate .../config/ssl/${IPADDR}.crt \
         --ssl-certificate-key .../config/ssl/${IPADDR}.key
