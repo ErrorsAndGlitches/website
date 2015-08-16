@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20150622061922) do
   create_table "photos", force: :cascade do |t|
     t.integer  "album_id",  limit: 4,   null: false
     t.string   "key",       limit: 255, null: false
-    t.string   "original",  limit: 255, null: false
+    t.string   "raw",       limit: 255, null: false
     t.string   "thumbnail", limit: 255, null: false
     t.datetime "date",                  null: false
   end

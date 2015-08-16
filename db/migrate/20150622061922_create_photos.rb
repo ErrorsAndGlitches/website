@@ -3,7 +3,7 @@ class CreatePhotos < ActiveRecord::Migration
     create_table :photos do |t|
       t.belongs_to :album, :index => true, :null => false
       t.string :key, :null => false
-      t.string :original, :null => false
+      t.string :raw, :null => false
       t.string :thumbnail, :null => false
       t.datetime :date, :null => false
     end
