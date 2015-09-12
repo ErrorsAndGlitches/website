@@ -30,4 +30,4 @@ public/files/
 
 config/database.yml
 config/ssl
-scripts/mysql_config.json
+mysql_config.json
