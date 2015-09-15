@@ -1,10 +1,10 @@
 class Album
   attr_reader :metadata, :photos
 
-  def initialize(metadata_filename, cover_dim, s3_base_link)
+  def initialize(metadata_filename, cover_dim, s3_end_point)
     @metadata     = AlbumMetadata.new(metadata_filename)
     @cover_dim    = cover_dim
-    @s3_base_link = s3_base_link
+    @s3_end_point = s3_end_point
     @photos       = get_raw_photos
   end
 
@@ -22,7 +22,7 @@ class Album
   end
 
   def get_s3_cover_link
-    PhotoInfo.get_s3_photo_link(@s3_base_link, @metadata.key, Album.get_resized_filename(@cover_dim, @metadata.cover))
+    PhotoInfo.get_s3_photo_link(@s3_end_point, @metadata.key, Album.get_resized_filename(@cover_dim, @metadata.cover))
   end
 
   def self.get_raw_key
@@ -35,7 +35,7 @@ class Album
     raw_photos = []
     Dir.glob("#{@metadata.raw_dir}/*").each { |photo_filename|
       datetime   = %x(exiftool -CreateDate #{photo_filename} -d "%Y-%m-%d %H:%M:%S" | awk '{printf("%s %s", $4, $5)}')
-      raw_photos <<= PhotoInfo.new(@metadata.key, photo_filename, datetime, @s3_base_link)
+      raw_photos <<= PhotoInfo.new(@metadata.key, photo_filename, datetime, @s3_end_point)
     }
     raw_photos
   end
@@ -84,23 +84,23 @@ class Album
   class PhotoInfo
     attr_reader :raw_filename, :key, :datetime, :images
 
-    def initialize(album_key, raw_filename, datetime, s3_base_link)
+    def initialize(album_key, raw_filename, datetime, s3_end_point)
       @album_key    = album_key
       @raw_filename = raw_filename
       @key          = File.basename(raw_filename)
       @datetime     = datetime
-      @s3_base_link = s3_base_link
+      @s3_end_point = s3_end_point
       @images       = {}
       add_dim(Album.get_raw_key, @raw_filename)
     end
 
     def add_dim(dim, filename)
       key          = File.basename(filename)
-      @images[dim] = Image.new(filename, key, PhotoInfo.get_s3_photo_link(@s3_base_link, @album_key, key))
+      @images[dim] = Image.new(filename, key, PhotoInfo.get_s3_photo_link(@s3_end_point, @album_key, key))
     end
 
-    def self.get_s3_photo_link(s3_base_link, album_key, photo_key)
-      "#{s3_base_link}/#{album_key}/#{photo_key}"
+    def self.get_s3_photo_link(s3_end_point, album_key, photo_key)
+      "#{s3_end_point}/#{album_key}/#{photo_key}"
     end
   end
 

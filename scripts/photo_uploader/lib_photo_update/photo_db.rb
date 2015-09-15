@@ -9,17 +9,10 @@ class PhotoDb
   ALBUM_TABLE = 'albums'
   PHOTO_TABLE = 'photos'
 
-  def initialize(mysql_config)
-    unless File.exist?(mysql_config)
-      raise IOError, "File #{mysql_config} not found"
-    end
-
-    File.open(mysql_config) do |file|
-      json      = Crack::JSON.parse(file.read)
-      @host     = json['host']
-      @user     = json['user']
-      @password = json['password']
-    end
+  def initialize(host, user, password)
+    @host     = host
+    @user     = user
+    @password = password
 
     # password can be nil if there is no password for that user, which is definitely not a good idea, but feasible
     if @host.nil? || @user.nil?

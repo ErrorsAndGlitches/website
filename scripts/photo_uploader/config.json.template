@@ -1,0 +1,9 @@
+{
+  "mysql" {
+    "host": "<HOST>",
+    "user": "<USER>",
+    "password": "<PASSWORD>"
+  },
+  "region": "<REGION>",
+  "thumbnail_dim": <SIZE>
+}

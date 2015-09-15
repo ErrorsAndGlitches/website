@@ -7,17 +7,13 @@ require_relative 'lib_photo_update/s3_photo_client'
 require_relative 'lib_photo_update/album'
 require_relative 'lib_photo_update/photo_db'
 
-THUMBNAIL_SIZE = 400
-REGION         = 'us-west-2'
-S3_BASE_LINK   = 'https://s3-us-west-2.amazonaws.com'
-
 class PhotosOptionsParser
   def self.parse(args)
     options    = {}
     opt_parser = OptionParser.new { |opts|
       opts.banner = "Usage #{$0} [options]"
 
-      opts.on('-c', '--mysql_config=CONFIG', 'MySQL JSON configuration file') do |config_file|
+      opts.on('-c', '--config=CONFIG', 'JSON configuration file') do |config_file|
         options[:config_file] = config_file
       end
 
@@ -49,17 +45,34 @@ if options[:metafile].nil? || options[:config_file].nil?
 end
 
 ########################################################################################################################
+# Open and parse JSON configuration file
+#
+config = options[:config_file]
+unless File.exist?(config)
+  raise IOError, "File #{config} not found"
+end
+
+json = nil
+File.open(config) do |file|
+  json = Crack::JSON.parse(file.read)
+end
+
+########################################################################################################################
 # Actual program starts here
 #
+thumbnail_dim = json['thumbnail_dim']
+region        = json['region']
+s3_end_point  = region.equal?('us-east-1') ? 'https://s3.amazonaws.com' : "https://s3-#{region}.amazonaws.com"
 
 # create thumbnail and website images from the raw images
-album = Album.new(options[:metafile], THUMBNAIL_SIZE, S3_BASE_LINK)
-album.resize(THUMBNAIL_SIZE)
+album         = Album.new(options[:metafile], thumbnail_dim, s3_end_point)
+album.resize(thumbnail_dim)
 
 # upload the photos to S3 if needed
-client = S3PhotoClient.new(REGION)
+client = S3PhotoClient.new(region)
 client.sync_album(album)
 
 # update the database with the photos
-photo_db = PhotoDb.new(options[:config_file])
-photo_db.update_album(album, Album.get_raw_key, THUMBNAIL_SIZE)
+mysql_cfg = json['mysql']
+photo_db  = PhotoDb.new(mysql_cfg['host'], mysql_cfg['user'], mysql_cfg['password'])
+photo_db.update_album(album, Album.get_raw_key, thumbnail_dim)
