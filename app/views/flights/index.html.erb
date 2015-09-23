@@ -1,4 +1,43 @@
+<!--
 <%= javascript_include_tag "https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['line', 'corechart']}]}" %>
 <%= javascript_include_tag 'flights/chart' %>
 
 <div id="chart" class="chart-dim"></div>
+-->
+
+<% @flight_queries.each do |flight_query| %>
+  <div class="row" style="text-align: center;">
+    <%= content_tag :h1, flight_query.key %>
+
+    <%= content_tag :h3, 'General Flight Information:' %>
+    <ul>
+      <%= content_tag :li, flight_query.source_city %>
+      <%= content_tag :li, flight_query.destination_city %>
+      <%= content_tag :li, flight_query.departure_date %>
+      <%= content_tag :li, flight_query.return_date %>
+      <%= content_tag :li, flight_query.thumbnail %>
+    </ul>
+
+    <%= content_tag :h3, 'Airport Information:' %>
+    Sources:
+    <ul>
+      <% flight_query.sources.each do |src| %>
+        <%= content_tag :li, src.full_name %>
+      <% end %>
+    </ul>
+    Destinations:
+    <ul>
+      <% flight_query.destinations.each do |dest| %>
+        <%= content_tag :li, dest.full_name %>
+      <% end %>
+    </ul>
+
+    <%= content_tag :h3, 'Data' %>
+    Data:
+    <ul>
+      <% flight_query.flight_datums.each do |datum| %>
+        <%= content_tag :li, "#{datum.date}, #{datum.rank}, #{datum.cost}, #{datum.carrier}, #{datum.legs}" %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
