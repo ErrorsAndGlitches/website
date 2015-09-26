@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get '/albums/:id/:photo' => 'albums#show_photo'
 
   get '/flights' => 'flights#index'
+  get '/flights/:id/flight_chart' => 'flights#flight_chart'
+  get '/flights/:id' => 'flights#flight'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

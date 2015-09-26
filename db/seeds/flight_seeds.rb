@@ -17,22 +17,20 @@ destination      = Airport.where(:acronym => 'SNA').first_or_create { |src|
 # CREATE FLIGHT QUERY
 #
 sea_to_sna_query = FlightQuery.new(
-  :source_city      => 'Seattle',
-  :destination_city => 'Orange County',
-  :departure_date   => '01-01-2000',
-  :return_date      => '02-01-2000',
-  :thumbnail        => 'foobar.png',
+  :source_city       => 'Seattle',
+  :destination_city  => 'Orange County',
+  :departure_date    => '01-01-2000',
+  :return_date       => '02-01-2000',
+  :thumbnail         => 'http://www.alaska-in-pictures.com/data/media/22/seattle-space-needle-and-moon_2165.jpg',
+  :short_description => 'SEA <-> OC',
+  :interval          => 4,
 )
 
 begin
   sea_to_sna_query.save
 rescue ActiveRecord::RecordNotUnique
   puts 'Record not unique'
-  sea_to_sna_query = FlightQuery.find_by(key:              sea_to_sna_query.get_flight_key,
-                                         source_city:      sea_to_sna_query.source_city,
-                                         destination_city: sea_to_sna_query.destination_city,
-                                         departure_date:   sea_to_sna_query.departure_date,
-                                         return_date:      sea_to_sna_query.return_date)
+  sea_to_sna_query = FlightQuery.find_by(key: sea_to_sna_query.get_flight_key)
 end
 
 #
@@ -53,15 +51,17 @@ dest_endpt = FlightEndpoint.where(endpoint_type: 1, flight_query_id: sea_to_sna_
 #
 # CREATE FLIGHT DATA
 #
-(1..10).each { |i|
-  begin
-    FlightDatum.create(flight_query_id: sea_to_sna_query.id,
-                       date:            '%02d-01-2015' % i,
-                       cost:            i * 95,
-                       carrier:         'Korean Air',
-                       legs:            '[[SEA,INC],[INC,SNA],[SNA,INC],[INC,SEA]]',
-                       rank:            1 + (i % 4))
-  rescue ActiveRecord::RecordNotUnique
-    # ignored
-  end
+(1..10).each { |day|
+  (1..4).each { |rank|
+    begin
+      FlightDatum.create(flight_query_id: sea_to_sna_query.id,
+                         date:            '%02d-01-2015' % day,
+                         cost:            day * 95 + rank * 30,
+                         carrier:         'Korean Air',
+                         legs:            '[[SEA,INC],[INC,SNA],[SNA,INC],[INC,SEA]]',
+                         rank:            rank)
+    rescue ActiveRecord::RecordNotUnique
+      # ignored
+    end
+  }
 }

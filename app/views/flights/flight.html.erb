@@ -1,0 +1,20 @@
+<% content_for :head do %>
+  <script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['line', 'corechart']
+            }]
+          }"></script>
+<% end %>
+
+<div class="row" style="text-align: center;">
+  <%= content_tag :h1, "Flight From #{@flight.source_city} To #{@flight.destination_city}" %>
+  <%= content_tag :h2, "Departing #{@flight.departure_date.strftime('%a, %d %b %Y')} and Returning #{@flight.return_date.strftime('%a, %d %b %Y')}" %>
+  <br/><br/>
+
+  <% javascript "/flights/#{@flight.id}/flight_chart" %>
+
+  <div id="chart" style="width: 900px; height: 500px; font-family: serif; text-align: center; margin: 0 auto; "></div>
+</div>

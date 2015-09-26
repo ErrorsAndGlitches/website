@@ -5,10 +5,7 @@
 
 .custom-container
 {
-  @extend .container-fluid;
-  padding-top: 50px; // for the navigation bar
-  overflow: hidden;
-  overflow-x: auto;
+  @extend .container;
 }
 
 .chart-dim

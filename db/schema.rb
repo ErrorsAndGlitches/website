@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150915061202) do
+ActiveRecord::Schema.define(version: 20150925215129) do
 
   create_table "airports", force: :cascade do |t|
     t.string "acronym",   limit: 255, null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20150915061202) do
     t.string   "legs",            limit: 255,                         null: false
   end
 
+  add_index "flight_data", ["date"], name: "index_flight_data_on_date", using: :btree
   add_index "flight_data", ["flight_query_id", "date", "rank"], name: "index_flight_data_on_flight_query_id_and_date_and_rank", unique: true, using: :btree
   add_index "flight_data", ["flight_query_id"], name: "index_flight_data_on_flight_query_id", using: :btree
   add_index "flight_data", ["rank"], name: "index_flight_data_on_rank", using: :btree
@@ -52,12 +53,14 @@ ActiveRecord::Schema.define(version: 20150915061202) do
   add_index "flight_endpoints", ["flight_query_id"], name: "index_flight_endpoints_on_flight_query_id", using: :btree
 
   create_table "flight_queries", force: :cascade do |t|
-    t.string "source_city",      limit: 255, null: false
-    t.string "destination_city", limit: 255, null: false
-    t.date   "departure_date",               null: false
-    t.date   "return_date",                  null: false
-    t.string "thumbnail",        limit: 255, null: false
-    t.string "key",              limit: 255, null: false
+    t.string  "source_city",       limit: 255, null: false
+    t.string  "destination_city",  limit: 255, null: false
+    t.date    "departure_date",                null: false
+    t.date    "return_date",                   null: false
+    t.string  "thumbnail",         limit: 255, null: false
+    t.string  "key",               limit: 255, null: false
+    t.string  "short_description", limit: 255, null: false
+    t.integer "interval",          limit: 4,   null: false
   end
 
   add_index "flight_queries", ["key"], name: "index_flight_queries_on_key", unique: true, using: :btree

@@ -5,18 +5,23 @@ class ApplicationController < ActionController::Base
   attr_accessor :selected_tab
   attr_accessor :links
   helper_method :get_albums_for_nav
+  helper_method :get_flights_for_nav
 
   def initialize
     super
     @selected_tab = nil
     @links        = {
-      :home    => {:controller => 'home', :action => 'home'},
-      :albums  => {:controller => 'albums', :action => 'index'},
-      :flights => {:controller => 'flights', :action => 'index'}
+      :home    => { :controller => 'home', :action => 'home' },
+      :albums  => { :controller => 'albums', :action => 'index' },
+      :flights => { :controller => 'flights', :action => 'index' }
     }
   end
 
   def get_albums_for_nav
     Album.order(:date)
+  end
+
+  def get_flights_for_nav
+    FlightQuery.order(:departure_date)
   end
 end

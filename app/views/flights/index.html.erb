@@ -5,39 +5,20 @@
 <div id="chart" class="chart-dim"></div>
 -->
 
-<% @flight_queries.each do |flight_query| %>
-  <div class="row" style="text-align: center;">
-    <%= content_tag :h1, flight_query.key %>
-
-    <%= content_tag :h3, 'General Flight Information:' %>
-    <ul>
-      <%= content_tag :li, flight_query.source_city %>
-      <%= content_tag :li, flight_query.destination_city %>
-      <%= content_tag :li, flight_query.departure_date %>
-      <%= content_tag :li, flight_query.return_date %>
-      <%= content_tag :li, flight_query.thumbnail %>
-    </ul>
-
-    <%= content_tag :h3, 'Airport Information:' %>
-    Sources:
-    <ul>
-      <% flight_query.sources.each do |src| %>
-        <%= content_tag :li, src.full_name %>
-      <% end %>
-    </ul>
-    Destinations:
-    <ul>
-      <% flight_query.destinations.each do |dest| %>
-        <%= content_tag :li, dest.full_name %>
-      <% end %>
-    </ul>
-
-    <%= content_tag :h3, 'Data' %>
-    Data:
-    <ul>
-      <% flight_query.flight_datums.each do |datum| %>
-        <%= content_tag :li, "#{datum.date}, #{datum.rank}, #{datum.cost}, #{datum.carrier}, #{datum.legs}" %>
-      <% end %>
-    </ul>
+<% @flight_queries.each_slice(2) do |two_flights| %>
+  <div class="row">
+    <% two_flights.each do |flight| %>
+      <div class="col-xs-6">
+        <div class="row" style="text-align: center;">
+          <%= content_tag :h1, "#{flight.source_city} to #{flight.destination_city}" %>
+        </div>
+        <div class="row">
+          <%= content_tag :a, :href => "/flights/#{flight.id}" do %>
+            <%= image_tag flight.thumbnail, :class => 'img-rounded img-responsive', :style => 'margin: auto;' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <br>
   </div>
 <% end %>

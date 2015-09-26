@@ -1,0 +1,49 @@
+google.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = new google.visualization.DataTable();
+
+  data.addColumn("string", "Date");
+  data.addColumn('number', 'Rank 1');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+  data.addColumn('number', 'Rank 2');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+  data.addColumn('number', 'Rank 3');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+  data.addColumn('number', 'Rank 4');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+
+
+  data.addRows(
+          [
+            <% @flight_query.read_flight_dates { |date, flight_datums| %>
+            [
+              "<%= date %>",
+
+              <% flight_datums.each do |flight_datum| %>
+                    <%= flight_datum.cost %>,
+                    "<div align='center' style='font-family: serif'>\n <%= flight_datum.date %><br/>\n <b>$<%= flight_datum.cost %></b><br/>\n <%= flight_datum.carrier %>: <%= flight_datum.legs %>\n </div>",
+              <% end %>
+            ],
+            <% } %>
+          ]);
+
+  var options = {
+    title: "<%= "Flight Cost: #{@flight_query.source_city} to #{@flight_query.destination_city}, #{@flight_query.departure_date}/#{@flight_query.return_date}" %>",
+    legend: {position: "right"},
+    series: {
+      0: {axis: "Cost="}
+    },
+    vAxes: {
+      0: {title: "Cost (USD)"}
+    },
+    hAxes: {
+      0: {title: "Date"}
+    },
+    tooltip: {isHtml: true},
+    pointSize: 3
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById("chart"));
+  chart.draw(data, options);
+}
