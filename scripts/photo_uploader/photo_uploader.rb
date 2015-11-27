@@ -52,7 +52,7 @@ unless File.exist?(config)
   raise IOError, "File #{config} not found"
 end
 
-json          = Crack::JSON.parse(File.read(options[:config_file]))
+json          = JSON.parse(File.read(options[:config_file]))
 
 ########################################################################################################################
 # Actual program starts here
