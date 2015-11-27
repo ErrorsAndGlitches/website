@@ -26,9 +26,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # User added gems
 gem 'crack'
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 gem 'lazyload-rails'
 gem 'aws-sdk'
+gem 'hashie'
+gem 'rest-client'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
