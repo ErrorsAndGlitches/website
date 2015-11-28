@@ -1,9 +1,9 @@
 require 'test/unit'
 
-require_relative '../qpx/qpx_request'
+require_relative '../lib/qpx/qpx_request'
 require_relative 'test_helper'
 
-class QpxRequestTests <Test::Unit::TestCase
+class QpxRequestTests < Test::Unit::TestCase
   include TestHelper
 
   def test_builder_defaults

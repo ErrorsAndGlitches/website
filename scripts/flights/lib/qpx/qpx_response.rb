@@ -18,4 +18,8 @@ class QpxResponse < Hashie::Dash
       trip_one.price <=> trip_two.price
     }
   end
+
+  def options_count
+    trip_options.size
+  end
 end
