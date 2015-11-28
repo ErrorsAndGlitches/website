@@ -30,6 +30,7 @@ gem 'lazyload-rails'
 gem 'aws-sdk'
 gem 'hashie'
 gem 'rest-client'
+gem 'rspec'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
