@@ -19,7 +19,7 @@ class QpxResponse < Hashie::Dash
     }
   end
 
-  def options_count
-    trip_options.size
+  def save
+    # TODO
   end
 end
