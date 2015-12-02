@@ -1,11 +1,12 @@
 require 'qpx/qpx_request'
+require 'qpx/qpx_requests_builder'
 
-RSpec.describe QpxRequest::Builder, '#new' do
+RSpec.describe QpxRequestsBuilder, '#new' do
   context 'with no builder options set' do
     it 'should contain default request options' do
-      builder = QpxRequest::Builder.new
-      expect(builder.max_stops).to eq QpxRequest::Builder::DEFAULT_MAX_STOPS
-      expect(builder.max_connection_duration).to eq QpxRequest::Builder::DEFAULT_MAX_CONN_DURATION
+      builder = QpxRequestsBuilder.new
+      expect(builder.max_stops).to eq QpxRequestsBuilder::DEFAULT_MAX_STOPS
+      expect(builder.max_connection_duration).to eq QpxRequestsBuilder::DEFAULT_MAX_CONN_DURATION
       expect(builder.adult_count).to eq 0
       expect(builder.child_count).to eq 0
       expect(builder.infant_in_lap_count).to eq 0
@@ -14,8 +15,8 @@ RSpec.describe QpxRequest::Builder, '#new' do
       expect(builder.max_price).to eq 0
       expect(builder.num_solutions).to eq 0
       expect(builder.trips.size).to eq 0
-      expect(builder.preferred_cabin).to eq QpxRequest::CabinType::COACH
-      expect(builder.sale_country).to eq QpxRequest::SaleCountry::US
+      expect(builder.preferred_cabin).to eq QpxRequestsBuilder::CabinType::COACH
+      expect(builder.sale_country).to eq QpxRequestsBuilder::SaleCountry::US
     end
   end
 end
@@ -26,7 +27,7 @@ RSpec.describe QpxRequest, '#build' do
   end
 
   context 'using default builder options' do
-    qpx_request = QpxRequest::Builder.new.build
+    qpx_request = QpxRequestsBuilder.new.build
 
     test_yield(qpx_request, 0)
 
@@ -54,7 +55,7 @@ RSpec.describe QpxRequest, '#build' do
   end
 
   context 'adding one round-trip data for the builder' do
-    builder               = QpxRequest::Builder.new
+    builder               = QpxRequestsBuilder.new
     builder.adult_count   = 1
     builder.max_price     = 500
     builder.num_solutions = 70
@@ -106,7 +107,7 @@ RSpec.describe QpxRequest, '#build' do
   end
 
   context 'adding two one-way trips' do
-    builder = QpxRequest::Builder.new
+    builder = QpxRequestsBuilder.new
     builder.add_trip('ICN', 'SEA', '2012-12-25')
     builder.add_trip('SEA', 'ICN', '2012-12-12')
     qpx_request = builder.build

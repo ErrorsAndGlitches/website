@@ -1,4 +1,5 @@
 require 'hashie'
+require 'set'
 
 class QpxLeg < Hashie::Dash
   include Hashie::Extensions::IgnoreUndeclared
@@ -37,4 +38,17 @@ class QpxTripOption < Hashie::Dash
   property :currency, from: :saleTotal, with: ->(saleTotal) { SALE_TOTAL_REGEX.match(saleTotal)[1] }
   property :price, from: :saleTotal, with: ->(saleTotal) { SALE_TOTAL_REGEX.match(saleTotal)[2].to_i }
   property :slices, from: :slice, coerce: Array[QpxSlice]
+
+  attr_reader :carriers
+
+  def initialize(attributes, &block)
+    super(attributes, &block)
+
+    @carriers = Set.new
+    slices.each { |slice|
+      slice.segments.each { |segment|
+        @carriers.add(segment.carrier)
+      }
+    }
+  end
 end
