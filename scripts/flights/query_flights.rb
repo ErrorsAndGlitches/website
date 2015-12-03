@@ -30,7 +30,7 @@ class FlightQueryOptionsParser
 end
 
 def createQpxRequests(config_json)
-  qpx_reqs_builder               = QpxRequestsBuilder.new
+  qpx_reqs_builder               = Qpx::QpxRequestsBuilder.new
   qpx_reqs_builder.adult_count   = 1
   qpx_reqs_builder.max_price     = config_json.max_price
   qpx_reqs_builder.num_solutions = config_json.num_solutions
@@ -59,8 +59,9 @@ unless File.exists?(options[:config_file])
 end
 
 config_json   = Hashie::Mash.new(JSON.parse(File.read(options[:config_file])))
-qpx_client    = QpxClient.new(config_json.api_key)
-qpx_responses = qpx_client.search_flights(createQpxRequests(config_json))
+qpx_client    = Qpx::QpxClient.new(config_json.api_key)
+qpx_requests  = createQpxRequests(config_json)
+qpx_responses = qpx_client.search_flights(qpx_requests)
 
 qpx_responses.each { |qpx_resp|
   qpx_resp.save
