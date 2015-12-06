@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FlightQueryTest < ActiveSupport::TestCase
+class FlightRequestTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

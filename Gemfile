@@ -31,6 +31,7 @@ gem 'aws-sdk'
 gem 'hashie'
 gem 'rest-client'
 gem 'rspec'
+gem 'xxhash'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

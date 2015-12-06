@@ -63,6 +63,10 @@ qpx_client    = Qpx::QpxClient.new(config_json.api_key)
 qpx_requests  = createQpxRequests(config_json)
 qpx_responses = qpx_client.search_flights(qpx_requests)
 
-qpx_responses.each { |qpx_resp|
-  qpx_resp.save
+flight_requests = qpx_requests.inject([]) { |memo, qpx_req|
+  memo <<= qpx_req.save
+}
+
+flight_requests.zip(qpx_responses).each { |flight_req, qpx_resp|
+  qpx_resp.save(flight_req)
 }

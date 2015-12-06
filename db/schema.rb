@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925215129) do
+ActiveRecord::Schema.define(version: 20151206083526) do
 
   create_table "airports", force: :cascade do |t|
     t.string "acronym",   limit: 255, null: false
@@ -64,6 +64,23 @@ ActiveRecord::Schema.define(version: 20150925215129) do
   end
 
   add_index "flight_queries", ["key"], name: "index_flight_queries_on_key", unique: true, using: :btree
+
+  create_table "flight_requests", force: :cascade do |t|
+    t.string "key",        limit: 255,  null: false
+    t.binary "request_gz", limit: 1024, null: false
+  end
+
+  add_index "flight_requests", ["key"], name: "index_flight_requests_on_key", using: :btree
+
+  create_table "flight_responses", force: :cascade do |t|
+    t.integer  "flight_request_id", limit: 4,        null: false
+    t.datetime "date",                               null: false
+    t.binary   "full_response_gz",  limit: 16777215, null: false
+    t.binary   "response_gz",       limit: 65535,    null: false
+  end
+
+  add_index "flight_responses", ["date"], name: "index_flight_responses_on_date", using: :btree
+  add_index "flight_responses", ["flight_request_id"], name: "index_flight_responses_on_flight_request_id", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.integer  "album_id",  limit: 4,   null: false

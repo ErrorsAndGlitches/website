@@ -11,14 +11,15 @@ module Qpx
     end
 
     def search_flights(qpx_requests)
+      query_time = DateTime.now
       qpx_requests.inject([]) { |responses, request|
-        responses <<= parse_flight_response(post_request(request))
+        responses <<= parse_flight_response(query_time, post_request(request))
       }
     end
 
     private
     QPX_SEARCH_API_URL = 'https://www.googleapis.com/qpxExpress/v1/trips/search'
-    QPX_CONTENT_TYPE = {:content_type => 'application/json'}
+    QPX_CONTENT_TYPE   = { :content_type => 'application/json' }
 
     def post_request(request)
       RestClient.post(get_url, request.to_json, QPX_CONTENT_TYPE) { |response, req, result|
@@ -44,14 +45,14 @@ module Qpx
       "#{QPX_SEARCH_API_URL}?key=#{@api_key}"
     end
 
-    def parse_flight_response(flights)
+    def parse_flight_response(query_time, flights)
       json_flights = Hashie::Mash.new(JSON.parse(flights))
       trip_options = json_flights.trips.tripOption
       if trip_options.nil? || trip_options.empty?
         raise Exception.new('No trip options found')
       end
 
-      QpxResponse.new(QpxClient.symbolize_hash(json_flights.trips))
+      QpxResponse.new(query_time, json_flights.to_json, QpxClient.symbolize_hash(json_flights.trips))
     end
 
     def self.symbolize_hash(hash)
