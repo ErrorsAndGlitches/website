@@ -1,7 +1,7 @@
 require 'ostruct'
-require_relative 'qpx_request'
+require_relative 'qpx_trip'
 
-class QpxRequestsBuilder
+class QpxTripBuilder
   module SaleCountry
     US = :US
 
@@ -67,9 +67,7 @@ class QpxRequestsBuilder
       }
     }
 
-    qpx_requests.inject([]) { |qpx_reqs, qpx_req|
-      qpx_reqs <<= QpxRequest.new(qpx_req)
-    }
+    QpxTrip.new(qpx_requests)
   end
 
   private

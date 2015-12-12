@@ -1,5 +1,6 @@
 require 'active_support/gzip'
 require 'xxhash'
+require 'qpx/qpx_request'
 
 class FlightRequest < ActiveRecord::Base
   has_many :flight_responses, dependent: :destroy
@@ -7,14 +8,10 @@ class FlightRequest < ActiveRecord::Base
   before_validation :process_request
   validates :key, :request_gz, presence: true
 
-  attr_writer :raw_request
+  attr_writer :qpx_request
 
   def get_request
-    @raw_request ||= ActiveSupport::Gzip.decompress(@request_gz)
-  end
-
-  def self.get_key(raw_request)
-    XXhash.xxh64(raw_request)
+    @qpx_request ||= QpxRequest.from_string(ActiveSupport::Gzip.decompress(self.request_gz))
   end
 
   def info
@@ -24,7 +21,7 @@ class FlightRequest < ActiveRecord::Base
 
   private
   def process_request
-    self.key        = FlightRequest.get_key(@raw_request)
-    self.request_gz = ActiveSupport::Gzip.compress(@raw_request)
+    self.key        = @qpx_request.get_key
+    self.request_gz = ActiveSupport::Gzip.compress(@qpx_request.to_json)
   end
 end

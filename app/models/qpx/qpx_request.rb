@@ -1,4 +1,5 @@
 require 'hashie'
+require 'assets/symbolizer'
 
 class QpxPassengerList < Hashie::Dash
   property :kind
@@ -34,10 +35,17 @@ class QpxRequest < Hashie::Dash
 
   property :request, coerce: QpxRequestData
 
+  def self.from_string(str)
+    QpxRequest.new(Symbolizer.symbolize_hash(JSON.parse(str)))
+  end
+
   def save
-    json_qpx_request = self.to_json
-    FlightRequest.where(key: FlightRequest.get_key(json_qpx_request)).first_or_create { |qr|
-      qr.raw_request = json_qpx_request
+    FlightRequest.where(key: get_key).first_or_create { |fr|
+      fr.qpx_request = self
     }
+  end
+
+  def get_key
+    XXhash.xxh64(self.to_json)
   end
 end

@@ -4,9 +4,9 @@ require 'optparse'
 require 'hashie'
 require 'json'
 
-require_relative 'lib/qpx/qpx_requests_builder'
-require_relative 'lib/qpx/qpx_request'
-require_relative 'lib/qpx/qpx_client'
+require 'qpx/qpx_trip_builder'
+require 'qpx/qpx_trip'
+require 'qpx/qpx_client'
 
 class FlightQueryOptionsParser
   def self.parse(args)
@@ -29,17 +29,17 @@ class FlightQueryOptionsParser
   end
 end
 
-def createQpxRequests(config_json)
-  qpx_reqs_builder               = QpxRequestsBuilder.new
-  qpx_reqs_builder.adult_count   = 1
-  qpx_reqs_builder.max_price     = config_json.max_price
-  qpx_reqs_builder.num_solutions = config_json.num_solutions
+def createQpxTrip(config_json)
+  qpx_trip_builder               = QpxTripBuilder.new
+  qpx_trip_builder.adult_count   = 1
+  qpx_trip_builder.max_price     = config_json.max_price
+  qpx_trip_builder.num_solutions = config_json.num_solutions
   config_json.sources.each { |src|
     config_json.destinations.each { |dest|
-      qpx_reqs_builder.add_round_trip(src, dest, config_json.departure_date, config_json.return_date)
+      qpx_trip_builder.add_round_trip(src, dest, config_json.departure_date, config_json.return_date)
     }
   }
-  qpx_reqs_builder.build
+  qpx_trip_builder.build
 end
 
 ########################################################################################################################
@@ -60,13 +60,10 @@ end
 
 config_json   = Hashie::Mash.new(JSON.parse(File.read(options[:config_file])))
 qpx_client    = QpxClient.new(config_json.api_key)
-qpx_requests  = createQpxRequests(config_json)
-qpx_responses = qpx_client.search_flights(qpx_requests)
+qpx_trip      = createQpxTrip(config_json)
+qpx_responses = qpx_client.search_flights(qpx_trip)
 
-flight_requests = qpx_requests.inject([]) { |memo, qpx_req|
-  memo <<= qpx_req.save
-}
-
-flight_requests.zip(qpx_responses).each { |flight_req, qpx_resp|
-  qpx_resp.save(flight_req)
+flight_reqs = qpx_trip.save
+flight_reqs.zip(qpx_responses).each { |req, qpx_resp|
+  qpx_resp.save(req)
 }

@@ -1,17 +1,18 @@
 require 'rest-client'
 require 'hashie'
+require 'assets/symbolizer'
 
 require_relative 'qpx_response'
 
 class QpxClient
-  public
+
   def initialize(api_key)
     @api_key = api_key
   end
 
-  def search_flights(qpx_requests)
+  def search_flights(qpx_trip)
     query_time = DateTime.now
-    qpx_requests.inject([]) { |responses, request|
+    qpx_trip.qpx_requests.inject([]) { |responses, request|
       responses <<= parse_flight_response(query_time, post_request(request))
     }
   end
@@ -51,30 +52,6 @@ class QpxClient
       raise Exception.new('No trip options found')
     end
 
-    QpxResponse.new(query_time, json_flights.to_json, QpxClient.symbolize_hash(json_flights.trips))
-  end
-
-  def self.symbolize_hash(hash)
-    hash.inject({}) { |memo, (k, v)|
-      memo[k.to_sym] = symbolize_obj(v)
-      memo
-    }
-  end
-
-  def self.symbolize_array(array)
-    array.inject([]) { |memo, ele|
-      memo <<= symbolize_obj(ele)
-      memo
-    }
-  end
-
-  def self.symbolize_obj(obj)
-    if obj.is_a? Hash
-      obj = symbolize_hash(obj)
-    elsif obj.is_a? Array
-      obj = symbolize_array(obj)
-    end
-
-    obj
+    QpxResponse.new(query_time, json_flights.to_json, Symbolizer.symbolize_hash(json_flights.trips))
   end
 end
