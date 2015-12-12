@@ -3,6 +3,7 @@ require 'xxhash'
 require 'qpx/qpx_request'
 
 class FlightRequest < ActiveRecord::Base
+  has_many :flight_request_groups
   has_many :flight_responses, dependent: :destroy
 
   before_validation :process_request

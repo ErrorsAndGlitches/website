@@ -48,4 +48,12 @@ class QpxRequest < Hashie::Dash
   def get_key
     XXhash.xxh64(self.to_json)
   end
+
+  def get_source
+    self.request.slice.first.origin
+  end
+
+  def get_destination
+    self.request.slice.first.destination
+  end
 end

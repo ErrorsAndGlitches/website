@@ -6,24 +6,24 @@
     <ul class="nav navbar-nav navbar-left">
       <li>
         <%= link_to @links[:home], :class => 'navbar-link' do %>
-            <%= content_tag :div, nil, :id => 'home', :class => "#{@selected_tab == :home ? 'navbar-selected' : 'navbar-unselected'}" %>
+          <%= content_tag :div, nil, :id => 'home', :class => "#{@selected_tab == :home ? 'navbar-selected' : 'navbar-unselected'}" %>
         <% end %>
       </li>
       <li class="dropdown">
         <%= link_to '#', :class => 'navbar-link dropdown-toggle', 'data-toggle' => 'dropdown' do %>
-            <%= content_tag :div, nil, :id => 'photos', :class => "#{@selected_tab == :photos ? 'navbar-selected' : 'navbar-unselected'}" %>
+          <%= content_tag :div, nil, :id => 'photos', :class => "#{@selected_tab == :photos ? 'navbar-selected' : 'navbar-unselected'}" %>
         <% end %>
         <%= content_tag :ul, :class => 'dropdown-menu' do %>
-            <%= content_tag :li do %>
-                <%= link_to 'All Albums', @links[:albums], :class => 'truncate' %>
-            <% end %>
+          <%= content_tag :li do %>
+            <%= link_to 'All Albums', @links[:albums], :class => 'truncate' %>
+          <% end %>
 
-            <% get_albums_for_nav.each do |album| %>
-                <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
-                <%= content_tag :li do %>
-                    <%= link_to album.title, "/albums/#{album.id}", :class => 'truncate' %>
-                <% end %>
+          <% get_albums_for_nav.each do |album| %>
+            <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
+            <%= content_tag :li do %>
+              <%= link_to album.title, "/albums/#{album.id}", :class => 'truncate' %>
             <% end %>
+          <% end %>
         <% end %>
       </li>
       <li class="dropdown">
@@ -35,10 +35,10 @@
             <%= link_to 'All Flights', @links[:flights], :class => 'truncate' %>
           <% end %>
 
-          <% get_flights_for_nav.each do |flight| %>
+          <% get_trips_for_nav.each do |trip| %>
             <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
             <%= content_tag :li do %>
-              <%= link_to flight.short_description, "/flights/#{flight.id}", :class => 'truncate' %>
+              <%= link_to "#{trip.get_sources} to #{trip.get_destinations}", "/flights/#{trip.id}", :class => 'truncate' %>
             <% end %>
           <% end %>
         <% end %>
