@@ -10,5 +10,6 @@
   "return_date": "2000-01-02",
   "max_price": 0,
   "max_flights": 0,
-  "num_solutions": 0
+  "num_solutions": 0,
+  "thumbnail": "foo.jpg"
 }
