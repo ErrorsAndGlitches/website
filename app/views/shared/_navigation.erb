@@ -35,10 +35,10 @@
             <%= link_to 'All Flights', @links[:flights], :class => 'truncate' %>
           <% end %>
 
-          <% get_trips_for_nav.each do |trip| %>
+          <% get_sorted_trips.each do |trip| %>
             <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
             <%= content_tag :li do %>
-              <%= link_to "#{trip.get_sources} to #{trip.get_destinations}", "/flights/#{trip.id}", :class => 'truncate' %>
+              <%= link_to "#{trip.get_sources} to #{trip.get_destinations}", "/flights/#{trip.id}", :class => 'truncate', data: { no_turbolink: true } %>
             <% end %>
           <% end %>
         <% end %>
