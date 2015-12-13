@@ -6,15 +6,20 @@ class QpxLeg < Hashie::Dash
 
   property :origin
   property :destination
+
+  def to_s
+    "(#{self.origin}, #{self.destination})"
+  end
 end
 
 # a segment is a trip from one place to another and consists (as far as I can tell) of a single leg, even though
-# it is a list, which is why only the first is chosen
+# it is a list
 class QpxSegment < Hashie::Dash
-  include Hashie::Extensions::IgnoreUndeclared
   include Hashie::Extensions::Dash::PropertyTranslation
+  include Hashie::Extensions::Dash::Coercion
+  include Hashie::Extensions::IgnoreUndeclared
 
-  property :leg, transform_with: ->(legs) { QpxLeg.new(legs[0]) }
+  property :legs, from: :leg, coerce: Array[QpxLeg]
   property :carrier, from: :flight, with: ->(flight) { flight[:carrier] }
 end
 
@@ -50,5 +55,15 @@ class QpxTripOption < Hashie::Dash
         @carriers.add(segment.carrier)
       }
     }
+  end
+
+  def get_legs
+    trip = self.slices.inject([]) { |one_way_trips, slice|
+      one_way_trips << slice.segments.inject('') { |legs, segment|
+        legs += segment.legs.first.to_s
+      }
+    }.join('/')
+
+    "[#{trip}]"
   end
 end

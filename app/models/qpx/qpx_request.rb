@@ -56,4 +56,16 @@ class QpxRequest < Hashie::Dash
   def get_destination
     self.request.slice.first.destination
   end
+
+  def get_departure_date
+    self.request.slice.first.date
+  end
+
+  def get_return_date
+    if self.request.slice.size == 1
+      return nil
+    end
+
+    self.request.slice.last.date
+  end
 end

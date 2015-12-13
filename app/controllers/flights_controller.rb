@@ -16,5 +16,8 @@ class FlightsController < ApplicationController
   def flight_chart
     id    = params[:id]
     @trip = Trip.find(id)
+
+    sort_type = FlightsHelper::FlightResponseSorter::SortType::PRICE
+    @sorted_trip_options = FlightsHelper::FlightResponseSorter.new(@trip.flight_responses, sort_type).sorted_trip_options
   end
 end

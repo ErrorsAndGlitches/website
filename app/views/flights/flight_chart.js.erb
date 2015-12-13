@@ -15,21 +15,23 @@ function drawChart() {
 
 
   data.addRows(
-          [
-            <% @flight_query.read_flight_dates { |date, flight_datums| %>
-            [
-              "<%= date %>",
+    [
+      <% @sorted_trip_options.each_key { |date| %>
+      [
+        "<%= date %>",
 
-              <% flight_datums.each do |flight_datum| %>
-                    <%= flight_datum.cost %>,
-                    "<div align='center' style='font-family: serif'>\n <%= flight_datum.date %><br/>\n <b>$<%= flight_datum.cost %></b><br/>\n <%= flight_datum.carrier %>: <%= flight_datum.legs %>\n </div>",
-              <% end %>
-            ],
-            <% } %>
-          ]);
+        <% @sorted_trip_options[date][0..3].each do |trip_option| %>
+        <%= trip_option.price %>,
+        "<div align='center' style='font-family: serif'>\n <%= date %><br/>\n <b>$<%= trip_option.price %></b><br/>\n" +
+        "<%= trip_option.carriers.to_a.join(',') %>: <%= trip_option.get_legs %>\n </div>",
+        <% end %>
+      ],
+      <% } %>
+    ])
+  ;
 
   var options = {
-    title: "<%= "Flight Cost: #{@flight_query.source_city} to #{@flight_query.destination_city}, #{@flight_query.departure_date}/#{@flight_query.return_date}" %>",
+    title: "<%= "Flight Cost: #{@trip.get_sources} to #{@trip.get_destinations}, #{@trip.get_departure_date}/#{@trip.get_return_date}" %>",
     legend: {position: "right"},
     series: {
       0: {axis: "Cost="}

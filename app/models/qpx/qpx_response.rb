@@ -1,8 +1,9 @@
 require 'hashie'
 require 'date'
 
-require_relative 'qpx_data'
-require_relative 'qpx_trip_option'
+require 'qpx/qpx_data'
+require 'qpx/qpx_trip_option'
+require 'assets/symbolizer'
 
 class QpxResponse < Hashie::Dash
   include Hashie::Extensions::Dash::PropertyTranslation
@@ -11,6 +12,10 @@ class QpxResponse < Hashie::Dash
 
   property :trip_options, from: :tripOption, coerce: Array[QpxTripOption]
   property :data, coerce: QpxData
+
+  def self.from_string(query_time, response)
+    QpxResponse.new(query_time, nil, Symbolizer.symbolize_hash(JSON.parse(response)))
+  end
 
   def initialize(query_time, full_response, attributes, &block)
     super(attributes, &block)
@@ -28,7 +33,7 @@ class QpxResponse < Hashie::Dash
     flight_request.flight_responses.where(date: date).first_or_create { |flight_resp|
       flight_resp.date          = date
       flight_resp.full_response = @full_response
-      flight_resp.response      = self.to_json
+      flight_resp.response      = self
     }
   end
 
