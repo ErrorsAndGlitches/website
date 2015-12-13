@@ -20,6 +20,7 @@ RSpec.describe QpxTripBuilder, '#new' do
       expect(builder.trips.size).to eq 0
       expect(builder.preferred_cabin).to eq QpxTripBuilder::CabinType::COACH
       expect(builder.sale_country).to eq QpxTripBuilder::SaleCountry::US
+      expect(builder.thumbnail).to eq nil
     end
   end
 end
@@ -58,10 +59,13 @@ RSpec.describe QpxRequest, '#build' do
   end
 
   context 'adding one round-trip data for the builder' do
+    THUMBNAIL = 'i am a thumbnail'
+
     builder               = QpxTripBuilder.new
     builder.adult_count   = 1
     builder.max_price     = 500
     builder.num_solutions = 70
+    builder.thumbnail     = THUMBNAIL
     builder.add_round_trip('SEA', 'ICN', '2012-12-12', '2012-12-25')
     qpx_trip = builder.build
 
@@ -106,6 +110,8 @@ RSpec.describe QpxRequest, '#build' do
       qpx_trip.qpx_requests.each { |request|
         expect(request).to eq expected
       }
+
+      expect(qpx_trip.thumbnail).to eq THUMBNAIL
     end
   end
 

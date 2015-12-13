@@ -59,7 +59,8 @@ ActiveRecord::Schema.define(version: 20151211082702) do
   add_index "photos", ["album_id"], name: "index_photos_on_album_id", using: :btree
 
   create_table "trips", force: :cascade do |t|
-    t.string "key", limit: 255, null: false
+    t.string "key",       limit: 255, null: false
+    t.string "thumbnail", limit: 255, null: false
   end
 
   add_index "trips", ["key"], name: "index_trips_on_key", using: :btree

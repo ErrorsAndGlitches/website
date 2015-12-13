@@ -32,3 +32,4 @@ config/database.yml
 config/ssl
 mysql_config.json
 config.json
+qpx_config.json

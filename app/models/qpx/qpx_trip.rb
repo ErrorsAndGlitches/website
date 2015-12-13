@@ -2,12 +2,13 @@ require 'qpx/qpx_request'
 
 class QpxTrip
 
-  attr_reader :qpx_requests
+  attr_reader :qpx_requests, :thumbnail
 
-  def initialize(requests)
+  def initialize(thumbnail, requests)
     @qpx_requests = requests.inject([]) { |qpx_requests, request|
       qpx_requests << QpxRequest.new(request)
     }
+    @thumbnail    = thumbnail
   end
 
   def get_sources
@@ -31,7 +32,8 @@ class QpxTrip
   def save
     trip_key = get_key
     trip     = Trip.where(key: trip_key).first_or_create { |trip|
-      trip.key = trip_key
+      trip.key       = trip_key
+      trip.thumbnail = thumbnail
     }
 
     flight_requests = @qpx_requests.inject([]) { |requests, qpx_req|

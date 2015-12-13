@@ -20,7 +20,8 @@ class QpxTripBuilder
   end
 
   attr_accessor :adult_count, :child_count, :infant_in_lap_count, :infant_in_seat_count, :senior_count,
-                :sale_country, :max_stops, :max_connection_duration, :preferred_cabin, :max_price, :num_solutions
+                :sale_country, :max_stops, :max_connection_duration, :preferred_cabin, :max_price, :num_solutions,
+                :thumbnail
 
   attr_reader :trips
 
@@ -67,7 +68,7 @@ class QpxTripBuilder
       }
     }
 
-    QpxTrip.new(qpx_requests)
+    QpxTrip.new(thumbnail, qpx_requests)
   end
 
   private

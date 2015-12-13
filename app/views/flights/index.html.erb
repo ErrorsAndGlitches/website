@@ -13,7 +13,7 @@
           <% # reloaded. %>
           <div data-no-turbolink>
             <%= content_tag :a, :href => "/flights/#{trip.id}" do %>
-              <%= image_tag 'http://www.mapsofworld.com/flags/images/world-flags/Republic-of-korea-flag.jpg', :class => 'img-rounded img-responsive', :style => 'margin: auto;' %>
+              <%= image_tag trip.thumbnail, :class => 'img-rounded img-responsive', :style => 'margin: auto;' %>
             <% end %>
           </div>
         </div>

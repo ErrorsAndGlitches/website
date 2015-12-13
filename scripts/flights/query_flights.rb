@@ -34,6 +34,7 @@ def createQpxTrip(config_json)
   qpx_trip_builder.adult_count   = 1
   qpx_trip_builder.max_price     = config_json.max_price
   qpx_trip_builder.num_solutions = config_json.num_solutions
+  qpx_trip_builder.thumbnail     = config_json.thumbnail
   config_json.sources.each { |src|
     config_json.destinations.each { |dest|
       qpx_trip_builder.add_round_trip(src, dest, config_json.departure_date, config_json.return_date)
