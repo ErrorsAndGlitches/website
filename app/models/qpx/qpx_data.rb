@@ -4,7 +4,7 @@ class QpxAirport < Hashie::Dash
   include Hashie::Extensions::Dash::PropertyTranslation
   include Hashie::Extensions::IgnoreUndeclared
 
-  property :acronym, from: :code
+  property :code
   property :name
 end
 

@@ -16,7 +16,7 @@ function drawChart() {
 
   data.addRows(
     [
-      <% @sorted_trip_options.each_key { |date| %>
+      <% @sorted_trip_options.keys.sort!.each { |date| %>
       [
         "<%= date %>",
 
@@ -25,10 +25,14 @@ function drawChart() {
         "<div align='center' style='font-family: serif'>\n <%= date %><br/>\n <b>$<%= trip_option.price %></b><br/>\n" +
         "<%= trip_option.carriers.to_a.join(',') %>: <%= trip_option.get_legs %>\n </div>",
         <% end %>
+
+        <% (@sorted_trip_options[date].size...4).each do %>
+        null,
+        null,
+        <% end %>
       ],
       <% } %>
-    ])
-  ;
+    ]);
 
   var options = {
     title: "<%= "Flight Cost: #{@trip.get_sources} to #{@trip.get_destinations}, #{@trip.get_departure_date}/#{@trip.get_return_date}" %>",
