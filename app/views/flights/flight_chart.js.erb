@@ -1,0 +1,55 @@
+google.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = new google.visualization.DataTable();
+
+  data.addColumn("string", "Date");
+  data.addColumn('number', 'Rank 1');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+  data.addColumn('number', 'Rank 2');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+  data.addColumn('number', 'Rank 3');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+  data.addColumn('number', 'Rank 4');
+  data.addColumn({type: "string", role: "tooltip", "p": {"html": true}});
+
+
+  data.addRows(
+    [
+      <% @sorted_trip_options.keys.sort!.each { |date| %>
+      [
+        "<%= date %>",
+
+        <% @sorted_trip_options[date][0..3].each do |trip_option| %>
+        <%= trip_option.price %>,
+        "<div align='center' style='font-family: serif'>\n <%= date %><br/>\n <b>$<%= trip_option.price %></b><br/>\n" +
+        "<%= trip_option.carriers.to_a.join(',') %>: <%= trip_option.get_legs %>\n </div>",
+        <% end %>
+
+        <% (@sorted_trip_options[date].size...4).each do %>
+        null,
+        null,
+        <% end %>
+      ],
+      <% } %>
+    ]);
+
+  var options = {
+    title: "<%= "Flight Cost: #{@trip.get_sources} to #{@trip.get_destinations}, #{@trip.get_departure_date}/#{@trip.get_return_date}" %>",
+    legend: {position: "right"},
+    series: {
+      0: {axis: "Cost="}
+    },
+    vAxes: {
+      0: {title: "Cost (USD)"}
+    },
+    hAxes: {
+      0: {title: "Date"}
+    },
+    tooltip: {isHtml: true},
+    pointSize: 3
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById("chart"));
+  chart.draw(data, options);
+}

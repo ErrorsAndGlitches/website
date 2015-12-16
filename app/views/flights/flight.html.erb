@@ -1,0 +1,15 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['line', 'corechart']}]}" %>
+<% end %>
+
+<div class="row" style="text-align: center;">
+  <%= content_tag :h1, "Flight From #{@trip.get_sources} To #{@trip.get_destinations}" %>
+  <%= content_tag :h2, "Departing #{@trip.get_departure_date} and Returning #{@trip.get_return_date}" %>
+  <br/><br/>
+
+  <div data-no-turbolink>
+    <%= javascript_include_tag "/flights/#{@trip.id}/flight_chart" %>
+  </div>
+
+  <div id="chart" style="width: 900px; height: 500px; font-family: serif; text-align: center; margin: 0 auto; "></div>
+</div>

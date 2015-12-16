@@ -70,7 +70,7 @@ class Album
       dir_name = File.dirname(metadata_filename)
 
       File.open(metadata_filename) do |metadata_file|
-        metadata     = Crack::JSON.parse(metadata_file.read)
+        metadata     = JSON.parse(metadata_file.read)
         @key         = metadata['key']
         @title       = metadata['title']
         @cover       = metadata['cover']

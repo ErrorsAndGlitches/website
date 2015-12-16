@@ -6,32 +6,41 @@
     <ul class="nav navbar-nav navbar-left">
       <li>
         <%= link_to @links[:home], :class => 'navbar-link' do %>
-            <%= content_tag :div, nil, :id => 'home', :class => "#{@selected_tab == :home ? 'navbar-selected' : 'navbar-unselected'}" %>
+          <%= content_tag :div, nil, :id => 'home', :class => "#{@selected_tab == :home ? 'navbar-selected' : 'navbar-unselected'}" %>
         <% end %>
       </li>
       <li class="dropdown">
         <%= link_to '#', :class => 'navbar-link dropdown-toggle', 'data-toggle' => 'dropdown' do %>
-            <%= content_tag :div, nil, :id => 'photos', :class => "#{@selected_tab == :photos ? 'navbar-selected' : 'navbar-unselected'}" %>
+          <%= content_tag :div, nil, :id => 'photos', :class => "#{@selected_tab == :photos ? 'navbar-selected' : 'navbar-unselected'}" %>
         <% end %>
         <%= content_tag :ul, :class => 'dropdown-menu' do %>
+          <%= content_tag :li do %>
+            <%= link_to 'All Albums', @links[:albums], :class => 'truncate' %>
+          <% end %>
+
+          <% get_albums_for_nav.each do |album| %>
+            <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
             <%= content_tag :li do %>
-                <%= link_to 'All Albums', @links[:albums], :class => 'truncate' %>
+              <%= link_to album.title, "/albums/#{album.id}", :class => 'truncate' %>
             <% end %>
-
-            <% i = 0 %>
-            <% get_albums_for_nav.each do |album| %>
-                <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
-                <%= content_tag :li do %>
-                    <%= link_to album.title, "/albums/#{album.id}", :class => 'truncate' %>
-                <% end %>
-
-                <% i += 1 %>
-            <% end %>
+          <% end %>
         <% end %>
       </li>
-      <li>
-        <%= link_to @links[:flights], :class => 'navbar-link' do %>
-            <%= content_tag :div, nil, :id => 'flights', :class => "#{@selected_tab == :flights ? 'navbar-selected' : 'navbar-unselected'}" %>
+      <li class="dropdown">
+        <%= link_to '#', :class => 'navbar-link dropdown-toggle', 'data-toggle' => 'dropdown' do %>
+          <%= content_tag :div, nil, :id => 'flights', :class => "#{@selected_tab == :flights ? 'navbar-selected' : 'navbar-unselected'}" %>
+        <% end %>
+        <%= content_tag :ul, :class => 'dropdown-menu' do %>
+          <%= content_tag :li do %>
+            <%= link_to 'All Flights', @links[:flights], :class => 'truncate' %>
+          <% end %>
+
+          <% get_sorted_trips.each do |trip| %>
+            <%= content_tag :li, nil, :role => 'separator', :class => 'divider' %>
+            <%= content_tag :li do %>
+              <%= link_to "#{trip.get_sources} to #{trip.get_destinations}", "/flights/#{trip.id}", :class => 'truncate', data: { no_turbolink: true } %>
+            <% end %>
+          <% end %>
         <% end %>
       </li>
     </ul>

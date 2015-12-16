@@ -1,4 +1,3 @@
-require 'crack'
 require 'json'
 require 'mysql2' # mysql2 currently does not support prepared statements but will in version 0.4.0
 

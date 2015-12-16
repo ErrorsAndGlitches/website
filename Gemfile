@@ -25,10 +25,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # User added gems
-gem 'crack'
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 gem 'lazyload-rails'
 gem 'aws-sdk'
+gem 'hashie'
+gem 'rest-client'
+gem 'xxhash'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -48,5 +50,7 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'rspec-rails'
 end
 

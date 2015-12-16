@@ -11,7 +11,7 @@ class PhotosOptionsParser
   def self.parse(args)
     options    = {}
     opt_parser = OptionParser.new { |opts|
-      opts.banner = "Usage #{$0} [options]"
+      opts.banner = "Usage #{File.basename($0)} [options]"
 
       opts.on('-c', '--config=CONFIG', 'JSON configuration file') do |config_file|
         options[:config_file] = config_file
@@ -52,10 +52,7 @@ unless File.exist?(config)
   raise IOError, "File #{config} not found"
 end
 
-json = nil
-File.open(config) do |file|
-  json = Crack::JSON.parse(file.read)
-end
+json          = JSON.parse(File.read(options[:config_file]))
 
 ########################################################################################################################
 # Actual program starts here
