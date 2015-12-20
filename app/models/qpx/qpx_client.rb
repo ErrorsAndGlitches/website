@@ -1,6 +1,6 @@
 require 'rest-client'
 require 'hashie'
-require 'assets/symbolizer'
+require 'assets/util/symbolizer'
 
 require_relative 'qpx_response'
 

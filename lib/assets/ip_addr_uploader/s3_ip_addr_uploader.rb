@@ -1,4 +1,4 @@
-require 'assets/logger'
+require 'assets/util/logger'
 
 class S3IpAddrUploader
   def initialize(region, bucket_name, file_name)

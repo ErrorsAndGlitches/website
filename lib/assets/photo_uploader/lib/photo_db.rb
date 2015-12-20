@@ -1,7 +1,7 @@
 require 'json'
 require 'mysql2' # mysql2 currently does not support prepared statements but will in version 0.4.0
 
-require_relative 'logger'
+require 'assets/util/logger'
 
 class PhotoDb
   DB_NAME     = 'website_dev'

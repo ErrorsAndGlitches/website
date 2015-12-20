@@ -3,9 +3,9 @@
 require 'pathname'
 require 'optparse'
 
-require_relative 'lib_photo_update/s3_photo_client'
-require_relative 'lib_photo_update/album'
-require_relative 'lib_photo_update/photo_db'
+require_relative 'lib/s3_photo_client'
+require_relative 'lib/album'
+require_relative 'lib/photo_db'
 
 class PhotosOptionsParser
   def self.parse(args)

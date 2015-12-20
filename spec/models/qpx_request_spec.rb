@@ -2,7 +2,7 @@ require 'rails_helper'
 
 require 'qpx/qpx_request'
 require 'qpx/qpx_trip_builder'
-require 'assets/symbolizer'
+require 'assets/util/symbolizer'
 
 RSpec.describe QpxTripBuilder, '#new' do
   context 'with no builder options set' do

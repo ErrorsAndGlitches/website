@@ -3,7 +3,7 @@ require 'date'
 
 require 'qpx/qpx_data'
 require 'qpx/qpx_trip_option'
-require 'assets/symbolizer'
+require 'assets/util/symbolizer'
 
 class QpxResponse < Hashie::Dash
   include Hashie::Extensions::Dash::PropertyTranslation

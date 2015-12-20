@@ -1,5 +1,5 @@
 require 'hashie'
-require 'assets/symbolizer'
+require 'assets/util/symbolizer'
 
 class QpxPassengerList < Hashie::Dash
   property :kind

@@ -1,4 +1,4 @@
-require 'assets/logger'
+require 'assets/util/logger'
 
 require_relative 'ip_address_querier'
 require_relative 'ip_addr_cache'
