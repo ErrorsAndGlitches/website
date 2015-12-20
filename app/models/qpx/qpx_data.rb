@@ -1,7 +1,6 @@
 require 'hashie'
 
 class QpxAirport < Hashie::Dash
-  include Hashie::Extensions::Dash::PropertyTranslation
   include Hashie::Extensions::IgnoreUndeclared
 
   property :code
