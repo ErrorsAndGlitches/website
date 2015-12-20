@@ -33,3 +33,4 @@ config/ssl
 mysql_config.json
 config.json
 qpx_config.json
+ip_uploader_config.json

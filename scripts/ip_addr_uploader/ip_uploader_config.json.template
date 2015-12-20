@@ -1,0 +1,6 @@
+{
+  "cache_dir": "/tmp/",
+  "bucket_name": "bucket-name",
+  "file_name": "file_name",
+  "region": "region"
+}
