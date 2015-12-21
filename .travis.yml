@@ -7,6 +7,7 @@ install:
   - bundle install
 before_script:
   - sh -c "set -e"
+  - sh -c "cp test/travis_ci_database.yml config/database.yml"
 script:
   - RAILS_ENV="test" bundle exec rake db:create
   - RAILS_ENV="test" bundle exec rake db:migrate
