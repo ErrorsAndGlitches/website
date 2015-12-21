@@ -1,5 +1,7 @@
 = README
 
+{<img src="https://travis-ci.org/MusicalNeutrino/website.svg" alt="Build Status" />}[https://travis-ci.org/MusicalNeutrino/website]
+
 == Set Up
 
 There are two things that need to be configured to get the database and scripts functioning:
