@@ -5,6 +5,8 @@ git:
   depth: 1
 install:
   - bundle install
+before_script:
+  - sh -c "set -e"
 script:
   - bundle exec rake db:create
   - bundle exec rake db:migrate
@@ -14,3 +16,6 @@ branches:
     - travis_ci
 matrix:
   fast_finish: true
+services: mariadb
+addons:
+  mariadb: '10.1'
