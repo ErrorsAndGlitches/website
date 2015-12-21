@@ -64,7 +64,7 @@ qpx_client    = QpxClient.new(config_json.api_key)
 qpx_trip      = createQpxTrip(config_json)
 qpx_responses = qpx_client.search_flights(qpx_trip)
 
-flight_reqs = qpx_trip.save
+trip, flight_reqs = qpx_trip.save
 flight_reqs.zip(qpx_responses).each { |req, qpx_resp|
   qpx_resp.save(req)
 }

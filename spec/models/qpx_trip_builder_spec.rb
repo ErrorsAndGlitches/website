@@ -1,8 +1,5 @@
 require 'rails_helper'
-
-require 'qpx/qpx_request'
 require 'qpx/qpx_trip_builder'
-require 'assets/util/symbolizer'
 
 RSpec.describe QpxTripBuilder, '#new' do
   context 'with no builder options set' do
@@ -25,7 +22,7 @@ RSpec.describe QpxTripBuilder, '#new' do
   end
 end
 
-RSpec.describe QpxRequest, '#build' do
+RSpec.describe QpxTripBuilder, '#build' do
   def self.test_yield(qpx_trip, n)
     specify { expect { |b| qpx_trip.qpx_requests.each(&b) }.to yield_control.exactly(n).times }
   end

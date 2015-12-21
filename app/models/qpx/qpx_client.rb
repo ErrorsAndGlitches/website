@@ -1,8 +1,7 @@
 require 'rest-client'
 require 'hashie'
 require 'assets/util/symbolizer'
-
-require_relative 'qpx_response'
+require 'qpx/qpx_response'
 
 class QpxClient
 

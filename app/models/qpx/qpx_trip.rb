@@ -47,6 +47,6 @@ class QpxTrip
       }
     }
 
-    flight_requests
+    [trip, flight_requests]
   end
 end

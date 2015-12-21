@@ -1,5 +1,5 @@
 require 'ostruct'
-require_relative 'qpx_trip'
+require 'qpx/qpx_trip'
 
 class QpxTripBuilder
   module SaleCountry
