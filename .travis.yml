@@ -1,0 +1,22 @@
+language: ruby
+rvm:
+  - "2.2.1"
+git:
+  depth: 1
+install:
+  - bundle install
+before_script:
+  - sh -c "set -e"
+  - sh -c "cp test/travis_ci_database.yml config/database.yml"
+script:
+  - RAILS_ENV="test" bundle exec rake db:create
+  - RAILS_ENV="test" bundle exec rake db:migrate
+  - RAILS_ENV="test" bundle exec rake spec
+branches:
+  only:
+    - master
+matrix:
+  fast_finish: true
+services: mariadb
+addons:
+  mariadb: '10.1'
