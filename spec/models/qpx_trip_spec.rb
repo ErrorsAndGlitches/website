@@ -1,19 +1,6 @@
 require 'rails_helper'
 require 'rails/configuration'
 
-def test_trip_save(trip_save_one, trip_save_two, size)
-  trip_one, qpx_requests_one = trip_save_one
-  trip_two, qpx_requests_two = trip_save_two
-
-  expect(trip_one).to eq trip_two
-  expect(qpx_requests_one.size).to eq size
-  expect(qpx_requests_two.size).to eq size
-
-  qpx_requests_one.zip(qpx_requests_two).each { |one, two|
-    expect(one).to eq two
-  }
-end
-
 def create_trip(num_round_trips)
   builder             = QpxTripBuilder.new
   builder.adult_count = 1
@@ -24,20 +11,44 @@ def create_trip(num_round_trips)
   builder.build
 end
 
+def test_trip_save(qpx_trip, num_trips)
+  trip_one, flight_requests_one = qpx_trip.save
+  trip_two, flight_requests_two = qpx_trip.save
+
+  expect(trip_one).to eq trip_two
+  expect(flight_requests_one.size).to eq num_trips
+  expect(flight_requests_two.size).to eq num_trips
+
+  flight_requests_one.zip(flight_requests_two).each { |one, two|
+    expect(one).to eq two
+  }
+
+  all_trips = Trip.all
+  expect(all_trips.size).to eq 1
+  flight_requests_one.each { |request|
+    expect(FlightRequest.find(request.id)).to eq request
+  }
+
+  json_qpx_trip_requests = qpx_trip.qpx_requests.inject([]) { |json_reqs, req| json_reqs << req.to_json }
+  all_trips.first.flight_requests.inject([]) { |json_qpx_requests, flight_request|
+    json_qpx_requests << flight_request.get_request.to_json
+  }.each { |json_qpx_request|
+    expect(json_qpx_trip_requests.include?(json_qpx_request)).to eq true
+  }
+end
+
 RSpec.describe QpxTrip, '#save' do
   context 'using a single trip' do
     it 'should save to the DB with only a single QpxRequest' do
       num_trips = 1
-      qpx_trip = create_trip(num_trips)
-      test_trip_save(qpx_trip.save, qpx_trip.save, num_trips)
+      test_trip_save(create_trip(num_trips), num_trips)
     end
   end
 
   context 'using two trips' do
     it 'should save to the DB with only a single QpxRequest' do
       num_trips = 2
-      qpx_trip = create_trip(num_trips)
-      test_trip_save(qpx_trip.save, qpx_trip.save, num_trips)
+      test_trip_save(create_trip(num_trips), num_trips)
     end
   end
 end
