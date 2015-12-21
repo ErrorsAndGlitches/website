@@ -1,12 +1,16 @@
 language: ruby
 rvm:
-    - "2.2.1"
+  - "2.2.1"
+git:
+  depth: 1
 install:
-    - bundle install
+  - bundle install
 script:
-    - bundle exec rake db:create
-    - bundle exec rake db:migrate
-    - bundle exec rake spec
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rake spec
 branches:
-    only:
-        - travis_ci
+  only:
+    - travis_ci
+matrix:
+  fast_finish: true
